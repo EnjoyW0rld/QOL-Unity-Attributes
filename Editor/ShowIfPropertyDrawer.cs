@@ -7,12 +7,10 @@ using System;
 
 namespace QOLAttributes
 {
-
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfPropertyDrawer : PropertyDrawer
     {
         private FieldInfo propInfo;
-        private bool _isSeen;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (propInfo == null)
@@ -20,24 +18,31 @@ namespace QOLAttributes
                 ShowIfAttribute showIf = attribute as ShowIfAttribute;
                 propInfo = property.serializedObject.targetObject.GetType().GetField(showIf.ValueToComparer, BindingFlags.NonPublic | BindingFlags.Instance);
             }
-            if (!EvaluateShowIf(property))
+            if (!EvaluateShowIf(property,attribute,propInfo))
             {
                 return;
             }
             EditorGUILayout.PropertyField(property, label);
-            //base.OnGUI(position, property, label);
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return 0;
         }
-        private bool EvaluateShowIf(SerializedProperty pProperty)
+        /// <summary>
+        /// Evaluates the value of the target field (the one to be compared to) to the passed value
+        /// Also serves for the isNull/isNotNull cases
+        /// </summary>
+        /// <param name="pComparedProperty">Property that is compared, dynamic value</param>
+        /// <param name="pAttachedAttribute">Property to that attribute is attached to</param>
+        /// <param name="pComparedPropInfo">Info about the dynamic property that is being compared</param>
+        /// <returns></returns>
+        private static bool EvaluateShowIf(SerializedProperty pComparedProperty, PropertyAttribute pAttachedAttribute, FieldInfo pComparedPropInfo)
         {
-            ShowIfAttribute showIf = (ShowIfAttribute)attribute;
-            object propertyValue = propInfo.GetValue(pProperty.serializedObject.targetObject);
+            ShowIfAttribute showIf = (ShowIfAttribute)pAttachedAttribute;
+            object propertyValue = pComparedPropInfo.GetValue(pComparedProperty.serializedObject.targetObject);
             if (showIf.CompType == ShowIfAttribute.ComparisonType.IsNull || showIf.CompType == ShowIfAttribute.ComparisonType.IsNotNull)
             {
-                return DoNullEvalutionCheck(propertyValue);
+                return DoNullEvalutionCheck(propertyValue, pAttachedAttribute);
             }
             IComparable val1 = Convert.ChangeType(showIf.TargetValue, propertyValue.GetType()) as IComparable;
             IComparable val2 = propertyValue as IComparable;
@@ -55,9 +60,9 @@ namespace QOLAttributes
 
             return false;
         }
-        private bool DoNullEvalutionCheck(object pPropertyValue)
+        private static bool DoNullEvalutionCheck(object pPropertyValue, PropertyAttribute pAttribute)
         {
-            bool isNullCheck = ((ShowIfAttribute)attribute).CompType == ShowIfAttribute.ComparisonType.IsNull;
+            bool isNullCheck = ((ShowIfAttribute)pAttribute).CompType == ShowIfAttribute.ComparisonType.IsNull;
             return (isNullCheck ? pPropertyValue.Equals(null) : !pPropertyValue.Equals(null));
         }
     }

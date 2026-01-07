@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//**************************
+// ShowIf attribute allows to apply it to the property in class passing another variable in the same class
+// allowing to hide or show the attribute depending on the passed value that serves as a comparer
+//**************************
 namespace QOLAttributes
 {
-
+    /// <summary>
+    /// Attribute used on variables to hide or show them in the inspector
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ShowIfAttribute : PropertyAttribute
     {
@@ -35,6 +41,28 @@ namespace QOLAttributes
                 return;
             }
             CompType = pComparer;
+        }
+        public static bool IsNumber(object value)
+        {
+            return value is sbyte
+                || value is byte
+                || value is short
+                || value is ushort
+                || value is int
+                || value is uint
+                || value is long
+                || value is ulong
+                || value is System.Int16
+                || value is System.Int32
+                || value is System.Int64
+                || value is System.UInt16
+                || value is System.UInt32
+                || value is System.UInt64
+                || value is nint
+                || value is nuint
+                || value is float
+                || value is double
+                || value is decimal;
         }
     }
 
