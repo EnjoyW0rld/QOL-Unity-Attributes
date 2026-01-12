@@ -19,7 +19,7 @@ namespace QOLAttributes
         public object TargetValue;
         public enum ComparisonType { Less, Equal, NotEqual, Bigger, IsNull, IsNotNull }
         public ComparisonType CompType;
-        public ShowIfAttribute(ComparisonType pComparer, string pValueToCompare, object pTargetValue)
+        public ShowIfAttribute(string pValueToCompare, ComparisonType pComparer, object pTargetValue)
         {
             ValueToComparer = pValueToCompare;
             CompType = pComparer;
