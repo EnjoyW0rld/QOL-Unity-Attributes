@@ -9,9 +9,11 @@ namespace QOLAttributes
     public class FoldoutAttribute : PropertyAttribute
     {
         public string FoldoutName;
-        public FoldoutAttribute(string pFoldoutName)
+        public bool IsHeader;
+        public FoldoutAttribute(string pFoldoutName,bool pIsHeader = false)
         {
             FoldoutName = pFoldoutName;
+            IsHeader = pIsHeader;
         }
     }
 }
