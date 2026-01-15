@@ -11,14 +11,24 @@ namespace QOLAttributes
     {
         private bool _isFoldout;
         private List<SerializedProperty> _foldoutProperties;
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (!(attribute as FoldoutAttribute).IsHeader) return;
             if (_foldoutProperties == null)
             {
-                FindProperties(property);
+                //FindProperties(property);
             }
-
+            EditorGUI.PropertyField(position, property);
+            
+            while (property.NextVisible(true))
+            {
+                
+                Debug.Log(property.name);
+                SerializedProperty property2 = property as SerializedProperty;
+                EditorGUI.PropertyField(position, property);
+            }
+            //EditorGUILayout.PropertyField(_foldoutProperties[0]);
             return;
             var fInfo = property.serializedObject.targetObject.GetType().GetField(property.name, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
             var lvlv = fInfo.CustomAttributes.GetEnumerator();
@@ -42,6 +52,7 @@ namespace QOLAttributes
             while (pProperty.NextVisible(true))
             {
                 System.Reflection.FieldInfo fInfo = objType.GetField(pProperty.name, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+                
                 IEnumerator<CustomAttributeData> attrIEnum = fInfo.CustomAttributes.GetEnumerator();
                 while (attrIEnum.MoveNext())
                 {
