@@ -5,9 +5,15 @@ using UnityEngine;
 
 namespace QOLAttributes
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
     public class ButtonAttribute : PropertyAttribute
     {
-
+        public bool DoDrawUnder;
+        public string TargetFunction;
+        public ButtonAttribute(string pTargetFunction, bool pDoDrawUnder = false)
+        {
+            DoDrawUnder = pDoDrawUnder;
+            TargetFunction = pTargetFunction;
+        }
     }
 }
