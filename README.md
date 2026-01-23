@@ -6,7 +6,9 @@ A collection of **Quality-of-Life attributes for Unity** designed to improve wor
 This package focuses on conditional inspector logic such as **showing or hiding fields based on parameters**.
 
 ## ✨ Featured attributes
-- **ShowIf**: shows or hide a variable based on another variable value
+- **ShowIf**: show or hide a variable based on another variable value
+- **ReadOnly**: make a variable to be read only
+- **Button**: add a button in the inspection for a specified function to be called on click
 
 ## 📦 Installation
 ### Option 1: Unity Package Manager (Git URL)
