@@ -1,34 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using System.Reflection;
-using System;
+using UnityEngine.UIElements;
 
 namespace QOLAttributes
 {
     [CustomPropertyDrawer(typeof(ShowIfAttribute))]
     public class ShowIfPropertyDrawer : PropertyDrawer
     {
-        private FieldInfo propInfo;
+        private FieldInfo _propInfo;
+        private bool _showAttrubte;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (propInfo == null)
+            if (_propInfo == null)
             {
                 ShowIfAttribute showIf = attribute as ShowIfAttribute;
-                propInfo = property.serializedObject.targetObject.GetType().GetField(showIf.ValueToComparer, BindingFlags.NonPublic | BindingFlags.Instance);
+                _propInfo = property.serializedObject.targetObject.GetType().GetField(showIf.ValueToComparer, BindingFlags.NonPublic | BindingFlags.Instance);
             }
-            if (!EvaluateShowIf(property,attribute,propInfo))
+            if (!(_showAttrubte = EvaluateShowIf(property, attribute, _propInfo)))
             {
                 return;
             }
-            EditorGUILayout.PropertyField(property, label);
+            EditorGUI.PropertyField(position, property, label,true);
         }
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            //return EditorGUI.GetPropertyHeight(property, label, true);
-
-            return 0;
+            if (!_showAttrubte) return 0;
+            return EditorGUI.GetPropertyHeight(property, label, true);
         }
         /// <summary>
         /// Evaluates the value of the target field (the one to be compared to) to the passed value
