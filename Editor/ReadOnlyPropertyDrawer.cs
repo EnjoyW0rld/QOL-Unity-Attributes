@@ -9,7 +9,6 @@ namespace QOLAttributes
     public class ReadOnlyPropertyDrawer : PropertyDrawer
     {
         private const int HORIZONTAL_PADDING = 30;
-        private bool foldoutState = false;
         private static float singleLineHeight => EditorGUIUtility.singleLineHeight;
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -42,26 +41,9 @@ namespace QOLAttributes
             }
             EditorGUI.EndProperty();
         }
-        /*private void DrawNestedChildren(Rect pPosition,SerializedProperty pProperty, GUIContent pLabel)
-        {
-            foldoutState = EditorGUILayout.Foldout(foldoutState, pLabel);
-            if (!foldoutState) return;
-            //float addY = 
-            IEnumerator num = pProperty.GetEnumerator();
-            while (num.MoveNext())
-            {
-                //EditorGUILayout.PropertyField(num.Current as SerializedProperty);
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(pProperty.displayName);
-                string val = pProperty.boxedValue != null ? pProperty.boxedValue.ToString() : "null";
-                GUILayout.Label(val);
-                GUILayout.EndHorizontal();
-            }
-        }*/
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            //return EditorGUI.GetPropertyHeight(property, label, true);
-            //return 0;
             return EditorGUI.GetPropertyHeight(property, label, true);
         }
     }
