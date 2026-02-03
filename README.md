@@ -11,7 +11,8 @@ This package focuses on conditional inspector logic such as **showing or hiding 
 - [**ShowIf**](#showif): show or hide a variable based on another variable`s value
 - [**ReadOnly**](#readonly): make a variable to be read only
 - [**Button**](#button): add a button in the inspection for a specified function to be called on click
-
+- [**Break**](#break): add a simple colored line to divide variables visible in the editor.
+  
 ## 📦 Installation
 ### Option 1: Unity Package Manager (Git URL)
 
@@ -71,6 +72,10 @@ Add to a variable `[Button(..)]` attribute to make the editor draw a button. The
 - Where pTargetFunction is the name of the function to be called (the function needs to be without parameters).  
 - pDisplay name is the text to be written on the button itself; this parameter can be omitted if you don`t need custom text on the button.  
 - pDoDrawUnder is a bool determining if the button will be drawn on top (by default) of the variable this attribute is attached to or under.
+
+### Break
+The break attribute simply creates a line of desired width in the editor to split your variables and make the editor more readable.  
+Currentrly it is possible to set up only colour and the width of the divider, in future more settings will be added.  
 
 ## 🤝 Contributing
 Found a bug or have a feature request? Open an issue or submit a pull request! Contributions are welcome.
